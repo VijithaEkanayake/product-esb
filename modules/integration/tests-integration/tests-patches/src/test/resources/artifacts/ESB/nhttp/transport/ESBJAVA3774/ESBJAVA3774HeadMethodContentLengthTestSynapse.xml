@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api xmlns="http://ws.apache.org/ns/synapse"
+     name="wheather"
+     context="/wheather">
+    <resource methods="HEAD" uri-template="/test*">
+        <inSequence>
+            <log level="full"/>
+            <send>
+                <endpoint>
+                    <http method="head"
+                          uri-template="http://localhost:8000/headertest"/>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence>
+            <send/>
+        </outSequence>
+    </resource>
+</api>
