@@ -323,8 +323,8 @@
                 <version>${carbon.mediation.version}</version>
             </dependency>
             <dependency>
-                <groupId>bouncycastle</groupId>
-                <artifactId>bcprov-jdk15</artifactId>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
                 <version>${bouncycastle.version}</version>
             </dependency>
 
@@ -1045,6 +1045,12 @@
                 </exclusions>
             </dependency>
 
+            <dependency>
+                <groupId>com.rabbitmq.wso2</groupId>
+                <artifactId>amqp-client</artifactId>
+                <version>${rabbitmq.orbit.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
     <properties>
@@ -1084,7 +1090,7 @@
         <carbon.deployment.version>4.4.1</carbon.deployment.version>
 
         <!-- Carbon Registry version-->
-        <carbon.registry.version>4.4.3</carbon.registry.version>
+        <carbon.registry.version>4.4.4</carbon.registry.version>
 
         <!-- Carbon Identity version-->
         <carbon.identity.version>4.5.0</carbon.identity.version>
@@ -1159,7 +1165,7 @@
         <org.wso2.andes.client.version>0.13.wso2v3</org.wso2.andes.client.version>
 
         <commons-codec.version>1.6</commons-codec.version>
-        <bouncycastle.version>132</bouncycastle.version>
+        <bouncycastle.version>1.52</bouncycastle.version>
         <commons-digester.version>2.1</commons-digester.version>
         <groovy.version>1.1-rc-1</groovy.version>
         <hawtbuf.version>1.9</hawtbuf.version>
@@ -1181,6 +1187,8 @@
         <activemq.version>5.9.1</activemq.version>
         <testng.version>6.1.1</testng.version>
         <project.scm.id>wso2-scm-server</project.scm.id>
+
+        <rabbitmq.orbit.version>3.4.4.wso2v1</rabbitmq.orbit.version>
 
     </properties>
     <pluginRepositories>
