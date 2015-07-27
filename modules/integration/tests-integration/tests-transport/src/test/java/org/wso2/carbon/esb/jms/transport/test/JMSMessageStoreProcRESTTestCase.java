@@ -31,6 +31,7 @@ import org.wso2.carbon.automation.extensions.servers.jmsserver.controller.config
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 import org.wso2.esb.integration.common.utils.JMSEndpointManager;
 import org.wso2.carbon.logging.view.stub.types.carbon.LogEvent;
+import org.wso2.esb.integration.common.utils.servers.ActiveMQServer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +53,6 @@ public class JMSMessageStoreProcRESTTestCase extends ESBIntegrationTest {
                               "  \"lastName\" : \"Broker\",\n" +
                               "  \"id\" : 10\n" +
                               "}";
-
     private LogViewerClient logViewer;
 
 

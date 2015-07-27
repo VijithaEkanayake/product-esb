@@ -21,6 +21,11 @@
         </packages>
     </test-->
 
+    <test name="API-Test" preserve-order="true" verbose="2">
+        <classes>
+            <class name="org.wso2.carbon.esb.api.test.ESBJAVA3751UriTemplateReservedCharacterEncodingTest"/>
+        </classes>
+    </test>
 
     <test name="Template-Test" preserve-order="true" verbose="2">
         <packages>
@@ -114,5 +119,16 @@
 				name="org.wso2.carbon.esb.security.policy.ESBJAVA3899_PolicyReferenceInWSDLBindingsTestCase" />
 		</classes>
 	</test>
+
+    <test name="proxy-start-on-load-false-test" preserve-order="true" verbose="2">
+        <classes>
+            <class name="org.wso2.carbon.esb.car.deployment.test.ESBJAVA3546CAppProxyOnLoadTestCase"/>
+        </classes>
+    </test>
+    <test name="Carbon-app-file-re-deployment-test" preserve-order="true" verbose="2">
+        <classes>
+            <class name="org.wso2.carbon.esb.car.deployment.test.CarbonApplicationReDeploymentTestCase"/>
+        </classes>
+    </test>
 </suite>
 

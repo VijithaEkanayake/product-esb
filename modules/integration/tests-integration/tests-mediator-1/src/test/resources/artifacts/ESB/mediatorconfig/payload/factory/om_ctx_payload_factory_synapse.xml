@@ -18,29 +18,28 @@
   ~
   -->
 
-<!-- Reliable message exchange between Synapse and the back-end server using WS-ReliableMessaging -->
+<!-- Introduction to Payload-factory mediator  -->
 <definitions xmlns="http://ws.apache.org/ns/synapse">
 
     <sequence name="main">
         <in>
-            <RMSequence single="true" version="1.0"/>
-            <send>
-                <endpoint name="reliable">
-                    <address uri="http://localhost:9000/services/ReliableStockQuoteService">
-                        <enableRM/>
-                        <enableAddressing/>
-                    </address>
-                </endpoint>
-            </send>
-        </in>
-        <out>
-            <header name="wsrm:SequenceAcknowledgement" action="remove"
-                    xmlns:wsrm="http://schemas.xmlsoap.org/ws/2005/02/rm"/>
-            <header name="wsrm:Sequence" action="remove"
-                    xmlns:wsrm="http://schemas.xmlsoap.org/ws/2005/02/rm"/>
-            <header name="wsrm:AckRequested" action="remove"
-                    xmlns:wsrm="http://schemas.xmlsoap.org/ws/2005/02/rm"/>
+            <log level="full"/>
+            <!-- using payloadFactory mediator to transform the request message -->
+            <header name="To" action="remove"/>
+            <property name="RESPONSE" value="true"/>
+            <property name="NO_ENTITY_BODY" scope="axis2" action="remove"/>
+            <property xmlns:ns="http://services.samples" name="request" expression="//ns:payload/ns:request" scope="default" type="OM"/>
+            <payloadFactory>
+                <format>
+                    <ns:getQuote xmlns:ns="http://services.samples">$ctx:request</ns:getQuote>
+                </format>
+            </payloadFactory>
+            <log level="full"/>
             <send/>
+        </in>
+
+        <out>
+
         </out>
     </sequence>
 
