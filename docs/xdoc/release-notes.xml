@@ -23,7 +23,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta content="text/html; charset=iso-8859-1" http-equiv="content-type"/>
-        <title>WSO2 ESB v4.9.0 Released - January 2014</title>
+        <title>WSO2 ESB v4.9.0 Released - September 2015</title>
     </head>
     <body>
         <div id="header">
@@ -136,7 +136,7 @@
                 fixed in ESB 4.9.0 are recorded at following locations:
             </p>
             <ul>
-				<li><a href="https://wso2.org/jira/issues/?filter=11719">
+				<li><a href="https://wso2.org/jira/issues/?filter=12393">
                     Fixed ESB specific issues</a></li>
             </ul>
 
@@ -146,7 +146,7 @@
                 locations:
             </p>
             <ul>
-                <li><a href="https://wso2.org/jira/issues/?filter=11178">
+                <li><a href="https://wso2.org/jira/issues/?filter=12394">
                     WSO2 ESB 4.9.0 component issues</a></li>
             </ul>
 
