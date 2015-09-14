@@ -47,9 +47,9 @@ public class HTTPResponseCodeTestCase extends ESBIntegrationTest {
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
         super.init();
-	    String relativePath = "/artifacts/ESB/synapseconfig/esbjava2283/api.xml";
+	    String relativePath = File.separator + "artifacts" + File.separator + "ESB" + File.separator + "synapseconfig" +
+	                          File.separator + "esbjava2283" + File.separator + "api.xml";
 	    ESBTestCaseUtils util = new ESBTestCaseUtils();
-	    relativePath = relativePath.replaceAll("[\\\\/]", File.separator);
 	    OMElement apiConfig = util.loadResource(relativePath);
 	    addApi(apiConfig);
     }
@@ -58,7 +58,7 @@ public class HTTPResponseCodeTestCase extends ESBIntegrationTest {
 	public void testReturnResponseCode(int responseCode) throws Exception {
 		int port = 8089;
 		server = HttpServer.create(new InetSocketAddress(port), 0);
-		server.createContext("/gettest", new MyHandler());
+		server.createContext("/gettest", new ContentTypeHandler());
 		server.setExecutor(null); // creates a default executor
 		server.start();
 		switch (responseCode) {
@@ -76,13 +76,13 @@ public class HTTPResponseCodeTestCase extends ESBIntegrationTest {
 
 	}
 
-	private class MyHandler implements HttpHandler {
-		public void handle(HttpExchange t) throws IOException {
-			Headers h = t.getResponseHeaders();
-			h.add("Content-Type", "text/xml");
+	private class ContentTypeHandler implements HttpHandler {
+		public void handle(HttpExchange exchange) throws IOException {
+			Headers responseHeaders = exchange.getResponseHeaders();
+			responseHeaders.add("Content-Type", "text/xml");
 			String response = "This is Response status code test case";
-			t.sendResponseHeaders(200, response.length());
-			OutputStream os = t.getResponseBody();
+			exchange.sendResponseHeaders(200, response.length());
+			OutputStream os = exchange.getResponseBody();
 			os.write(response.getBytes());
 			os.close();
 		}

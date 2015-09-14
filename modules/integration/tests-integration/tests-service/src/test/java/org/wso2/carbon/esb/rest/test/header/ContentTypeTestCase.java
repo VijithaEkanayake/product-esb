@@ -51,9 +51,9 @@ public class ContentTypeTestCase extends ESBIntegrationTest {
 	@BeforeClass(alwaysRun = true)
 	public void init() throws Exception {
 		super.init();
-		String relativePath = "/artifacts/ESB/synapseconfig/esbjava2283/api.xml";
+		String relativePath = File.separator + "artifacts" + File.separator + "ESB" + File.separator + "synapseconfig" +
+		                      File.separator + "esbjava2283" + File.separator + "api.xml";
 		ESBTestCaseUtils util = new ESBTestCaseUtils();
-		relativePath = relativePath.replaceAll("[\\\\/]", File.separator);
 		OMElement apiConfig = util.loadResource(relativePath);
 		addApi(apiConfig);
 	}
@@ -63,7 +63,7 @@ public class ContentTypeTestCase extends ESBIntegrationTest {
 	    contentType = dataProviderContentType;
 	    int port = 8089;
 	    server = HttpServer.create(new InetSocketAddress(port), 0);
-	    server.createContext("/gettest", new MyHandler());
+	    server.createContext("/gettest", new ContentTypeHandler());
 	    server.setExecutor(null); // creates a default executor
 	    server.start();
 	    DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -74,24 +74,24 @@ public class ContentTypeTestCase extends ESBIntegrationTest {
 		    response = httpclient.execute(httpGet);
 	    } catch (IOException e) {
 		    log.error("Error Occurred while sending http get request. " + e);
+	    } finally {
+		    server.stop(0);
 	    }
 	    log.info(response.getEntity().getContentType());
 	    log.info(response.getStatusLine().getStatusCode());
 
 	    assertEquals(response.getFirstHeader("Content-Type").getValue(), contentType, "Expected content type doesn't match");
 	    assertEquals(response.getStatusLine().getStatusCode(), 200, "response code doesn't match");
-
-	    server.stop(0);
     }
 
-	private class MyHandler implements HttpHandler {
-		public void handle(HttpExchange t) throws IOException {
+	private class ContentTypeHandler implements HttpHandler {
+		public void handle(HttpExchange exchange) throws IOException {
 
-			Headers h = t.getResponseHeaders();
-			h.add("Content-Type", contentType);
+			Headers responseHeaders = exchange.getResponseHeaders();
+			responseHeaders.add("Content-Type", contentType);
 			String response = "This Content type test case";
-			t.sendResponseHeaders(200, response.length());
-			OutputStream os = t.getResponseBody();
+			exchange.sendResponseHeaders(200, response.length());
+			OutputStream os = exchange.getResponseBody();
 			os.write(response.getBytes());
 			os.close();
 		}
