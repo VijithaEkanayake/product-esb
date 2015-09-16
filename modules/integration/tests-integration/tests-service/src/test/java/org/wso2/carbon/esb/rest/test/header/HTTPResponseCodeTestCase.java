@@ -97,8 +97,8 @@ public class HTTPResponseCodeTestCase extends ESBIntegrationTest {
 		} catch (IOException e) {
 			log.error("Error Occured while sending http get request. " + e);
 		}
-		log.info(response.getEntity().getContentType());
-		log.info(response.getStatusLine().getStatusCode());
+		log.info("Content-Type of the HTTP response is : "+response.getEntity().getContentType());
+		log.info("Status Code of the Http response is : "+response.getStatusLine().getStatusCode());
 
 		assertEquals(response.getFirstHeader("Content-Type").getValue(), contentType,
 		             "Expected content type doesn't match");

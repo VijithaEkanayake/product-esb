@@ -72,8 +72,8 @@ public class ESBJAVA2283ReturnContentTypeTestCase extends ESBIntegrationTest {
 	    } finally {
 		    server.stop(0);
 	    }
-	    log.info(response.getEntity().getContentType());
-	    log.info(response.getStatusLine().getStatusCode());
+	    log.info("Content-Type of the HTTP response is : "+response.getEntity().getContentType());
+	    log.info("Status Code of the Http response is : "+response.getStatusLine().getStatusCode());
 
 	    assertEquals(response.getFirstHeader("Content-Type").getValue(), contentType,
 	                 "Expected content type doesn't match");
