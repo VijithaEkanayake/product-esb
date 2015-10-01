@@ -24,6 +24,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -31,6 +32,7 @@ import java.net.UnknownHostException;
 import org.apache.axiom.om.OMElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -47,6 +49,7 @@ public class ContentTypeTestCase extends ESBIntegrationTest {
     private Log log = LogFactory.getLog(ContentTypeTestCase.class);
 	private HttpServer server = null;
 	public static String contentType;
+	private static final String API_URL = "http://localhost:8280/serviceTest/test";
 
 	@BeforeClass(alwaysRun = true)
 	public void init() throws Exception {
@@ -67,21 +70,27 @@ public class ContentTypeTestCase extends ESBIntegrationTest {
 	    server.setExecutor(null); // creates a default executor
 	    server.start();
 	    DefaultHttpClient httpclient = new DefaultHttpClient();
-	    String url = "http://localhost:8280/serviceTest/test";
-	    HttpGet httpGet = new HttpGet(url);
-	    HttpResponse response = null;
+	    HttpGet httpGet = new HttpGet(API_URL);
+	    HttpResponse response;
+	    InputStream instream = null;
 	    try {
 		    response = httpclient.execute(httpGet);
+		    HttpEntity entity = response.getEntity();
+		    if (entity != null) {
+			    instream = entity.getContent();
+			    log.info("Content-Type of the HTTP response is : " + response.getEntity().getContentType());
+			    log.info("Status Code of the Http response is : " + response.getStatusLine().getStatusCode());
+			    assertEquals(response.getFirstHeader("Content-Type").getValue(), contentType, "Expected content type doesn't match");
+			    assertEquals(response.getStatusLine().getStatusCode(), 200, "response code doesn't match");
+		    }
 	    } catch (IOException e) {
 		    log.error("Error Occurred while sending http get request. " + e);
 	    } finally {
+		    if (instream != null) {
+			    instream.close();
+		    }
 		    server.stop(0);
 	    }
-	    log.info("Content-Type of the HTTP response is : "+response.getEntity().getContentType());
-	    log.info("Status Code of the Http response is : "+response.getStatusLine().getStatusCode());
-
-	    assertEquals(response.getFirstHeader("Content-Type").getValue(), contentType, "Expected content type doesn't match");
-	    assertEquals(response.getStatusLine().getStatusCode(), 200, "response code doesn't match");
     }
 
 	private class ContentTypeHandler implements HttpHandler {
@@ -90,10 +99,22 @@ public class ContentTypeTestCase extends ESBIntegrationTest {
 			Headers responseHeaders = exchange.getResponseHeaders();
 			responseHeaders.add("Content-Type", contentType);
 			String response = "This Content type test case";
-			exchange.sendResponseHeaders(200, response.length());
-			OutputStream os = exchange.getResponseBody();
-			os.write(response.getBytes());
-			os.close();
+			OutputStream os = null;
+			try {
+				exchange.sendResponseHeaders(200, response.length());
+				os = exchange.getResponseBody();
+				os.write(response.getBytes());
+			} catch (IOException e) {
+				log.error("Error Occurred while writing the response. " + e);
+			} finally {
+				if (os != null) {
+					try {
+						os.close();
+					} catch (IOException e) {
+						log.error("Error Occurred while closing the ContentTypeHandler output stream. " + e);
+					}
+				}
+			}
 		}
 	}
 

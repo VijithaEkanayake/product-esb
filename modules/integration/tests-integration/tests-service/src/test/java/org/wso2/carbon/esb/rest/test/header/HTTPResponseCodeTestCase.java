@@ -55,36 +55,54 @@ public class HTTPResponseCodeTestCase extends ESBIntegrationTest {
     }
 
 	@Test(groups = { "wso2.esb" }, description = "Test different response codes", dataProvider = "getResponseCodes")
-	public void testReturnResponseCode(int responseCode) throws Exception {
+	public void testReturnResponseCode(int responseCode) {
 		int port = 8089;
-		server = HttpServer.create(new InetSocketAddress(port), 0);
-		server.createContext("/gettest", new ContentTypeHandler());
-		server.setExecutor(null); // creates a default executor
-		server.start();
-		switch (responseCode) {
-			case 200:
-				String contentType = "text/xml";
-				String url = "http://localhost:8280/serviceTest/test";
-				sendRequest(url, 200, contentType);
-			case 404:
-				contentType = "text/html";
-				url = "http://localhost:8280/serviceTest/notfound";
-				sendRequest(url, 404, contentType);
+		try {
+			server = HttpServer.create(new InetSocketAddress(port), 0);
+			server.createContext("/gettest", new ContentTypeHandler());
+			server.setExecutor(null); // creates a default executor
+			server.start();
+			switch (responseCode) {
+				case 200:
+					String contentType = "text/xml";
+					String url = "http://localhost:8280/serviceTest/test";
+					sendRequest(url, 200, contentType);
+				case 404:
+					contentType = "text/html";
+					url = "http://localhost:8280/serviceTest/notfound";
+					sendRequest(url, 404, contentType);
+			}
+		} catch (IOException e) {
+			log.error("Error Occurred while creating HTTP server. " + e);
+		} finally {
+			if (server != null) {
+				server.stop(0);
+			}
 		}
-
-		server.stop(0);
-
 	}
 
 	private class ContentTypeHandler implements HttpHandler {
-		public void handle(HttpExchange exchange) throws IOException {
+		public void handle(HttpExchange exchange)  {
 			Headers responseHeaders = exchange.getResponseHeaders();
 			responseHeaders.add("Content-Type", "text/xml");
 			String response = "This is Response status code test case";
-			exchange.sendResponseHeaders(200, response.length());
-			OutputStream os = exchange.getResponseBody();
-			os.write(response.getBytes());
-			os.close();
+			OutputStream os = null;
+			try {
+				exchange.sendResponseHeaders(200, response.length());
+				os = exchange.getResponseBody();
+				os.write(response.getBytes());
+			} catch (IOException e) {
+				log.error("Error Occurred while writing the response. " + e);
+			} finally {
+				if (os != null) {
+					try {
+						os.close();
+					} catch (IOException e) {
+						log.error("Error Occurred while closing the ContentTypeHandler output stream. " + e);
+					}
+				}
+			}
+
 		}
 	}
 
@@ -95,13 +113,11 @@ public class HTTPResponseCodeTestCase extends ESBIntegrationTest {
 		try {
 			response = httpclient.execute(httpGet);
 		} catch (IOException e) {
-			log.error("Error Occured while sending http get request. " + e);
+			log.error("Error Occurred while sending http get request. " + e);
 		}
-		log.info("Content-Type of the HTTP response is : "+response.getEntity().getContentType());
-		log.info("Status Code of the Http response is : "+response.getStatusLine().getStatusCode());
-
-		assertEquals(response.getFirstHeader("Content-Type").getValue(), contentType,
-		             "Expected content type doesn't match");
+		log.info("Content-Type of the HTTP response is : " + response.getEntity().getContentType());
+		log.info("Status Code of the Http response is : " + response.getStatusLine().getStatusCode());
+		assertEquals(response.getFirstHeader("Content-Type").getValue(), contentType,  "Expected content type doesn't match");
 		assertEquals(response.getStatusLine().getStatusCode(), responseCode, "response code doesn't match");
 	}
 
