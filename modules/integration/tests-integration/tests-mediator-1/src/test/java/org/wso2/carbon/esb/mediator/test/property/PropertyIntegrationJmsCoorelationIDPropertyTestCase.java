@@ -64,6 +64,7 @@ public class PropertyIntegrationJmsCoorelationIDPropertyTestCase extends ESBInte
 
     @AfterClass(alwaysRun = true)
     public void close() throws Exception {
+        super.cleanup();
         activeMQServer.stopJMSBrokerRevertESBConfiguration();
         consumer.close();
         connection.close();

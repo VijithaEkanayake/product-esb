@@ -55,6 +55,7 @@
     <test name="QueryParam-Test" preserve-order="true" verbose="2">
         <classes>
             <class name="org.wso2.carbon.esb.endpoint.test.ESBJAVA3340QueryParamHttpEndpointTestCase"/>
+            <class name="org.wso2.carbon.esb.endpoint.test.ESBJAVA4231EmptyPayloadInFailoverLoadBalanceEndpoint"/>
         </classes>
     </test>
 
@@ -80,6 +81,11 @@
             <class name="org.wso2.carbon.esb.mediators.cache.APIMANAGER1838RequestHashGeneratorTestCase"/>
         </classes>
     </test-->
+    <test name="Cache mediator with PIs test" preserve-order="true" verbose="2">
+        <classes>
+            <class name="org.wso2.carbon.esb.mediators.cache.ESBJAVA4318Testcase"/>
+        </classes>
+    </test>
 
     <test name="Enrich Mediator Tests" preserve-order="true" verbose="2">
         <classes>
@@ -113,6 +119,12 @@
         </classes>
 	</test>
 
+    <test name="host-header-handling-test" preserve-order="true" verbose="2">
+        <classes>
+            <class name="org.wso2.carbon.esb.passthru.transport.test.ESBJAVA3336HostHeaderValuePortCheckTestCase"></class>
+        </classes>
+    </test>
+
     <!-- Commented the test case due to a regression issue occurred due to this fix. 
              Need to enable this test case once the original issue is fixed properly -->
     <!--test
@@ -138,7 +150,52 @@
     </test>
 
     <test name="soap-header-handling-test" preserve-order="true" verbose="2">
-        <classes><class name="org.wso2.carbon.esb.mediators.callout.ESBJAVA_4118_SOAPHeaderHandlingTest"></class></classes>
+        <classes>
+            <class name="org.wso2.carbon.esb.mediators.callout.ESBJAVA_4118_SOAPHeaderHandlingTest"></class>
+        </classes>
     </test>
+
+	<test
+		name="MessageProcessorRetryUponHTTP-SC-500-With-200-202-as-non-retrysc-TestCase"
+		preserve-order="true" verbose="2">
+		<classes>
+			<class
+				name="org.wso2.carbon.esb.jms.transport.test.JMSBrokerStartupTestCase" />
+			<class
+				name="org.wso2.carbon.esb.message.processor.test.ESBJAVA4279_MPRetryUponResponseSC_500_withNonRetryStatusCodes_200_and_202_TestCase" />
+		</classes>
+	</test>
+
+    <test name="Callout-mediator-status-code-test" preserve-order="true" verbose="2">
+        <classes>
+            <class name="org.wso2.carbon.esb.mediators.callout.ESBJAVA_4239_HTTP_SC_HandlingTests"></class>
+        </classes>
+    </test>
+
+    <test name="content-type application/json GET request test" preserve-order="true" verbose="2">
+        <classes>
+            <class name="org.wso2.carbon.esb.json.ESBJAVA4270TestCase"></class>
+        </classes>
+    </test>
+
+    <test name="ut-scenario-401-on-wrong-credentials-test" preserve-order="true" verbose="2">
+        <classes><class name="org.wso2.carbon.esb.security.policy.UTResponseCode401UTauthFailure"></class></classes>
+    </test>
+
+
+    <test name="JSON empty Array NHTTP transport Test Case" preserve-order="true" verbose="2">
+        <classes>
+            <class name="org.wso2.carbon.esb.nhttp.transport.json.test.ESBJAVA4331MissingJSONEmptyArrayNHTTPTransport"/>
+        </classes>
+    </test>
+
+
+	<test name="Access HTTP SC after Callout mediator test">
+		<classes>
+			<class
+				name="org.wso2.carbon.esb.mediators.callout.ESBJAVA_4239_AccessHTTPSCAfterCallout"></class>
+		</classes>
+	</test>
+
 </suite>
 
