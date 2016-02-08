@@ -111,8 +111,8 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon.mediation:org.wso2.carbon.mediation.tracer.feature:${carbon.mediation.version}
                                 </featureArtifactDef>
-				<featureArtifactDef>
-                                    org.wso2.carbon.mediation:org.wso2.carbon.message.flow.tracer.feature:${carbon.mediation.version}
+				                <featureArtifactDef>
+                                    org.wso2.carbon.mediation:org.wso2.carbon.das.messageflow.data.publisher.feature:${carbon.mediation.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.mediation:org.wso2.carbon.mediation.configadmin.feature:${carbon.mediation.version}
@@ -435,6 +435,7 @@
                                 <!--TODO Add required adaptors-->
                                 <!--featureArtifactDef>org.wso2.carbon:org.wso2.carbon.hl7.feature:${carbon.mediation.version}</featureArtifactDef-->
                                 <!--<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.transports.sap.feature:${wso2carbon.feature.version}</featureArtifactDef>-->
+                                <featureArtifactDef>org.wso2.carbon.mediation:org.wso2.carbon.websocket.feature:${carbon.mediation.version}</featureArtifactDef>
 
 
                             </featureArtifacts>
@@ -527,8 +528,8 @@
                                     <id>org.wso2.carbon.mediation.tracer.feature.group</id>
                                     <version>${carbon.mediation.version}</version>
                                 </feature>
-				<feature>
-                                    <id>org.wso2.carbon.message.flow.tracer.feature.group</id>
+				                <feature>
+                                    <id>org.wso2.carbon.das.messageflow.data.publisher.feature.group</id>
                                     <version>${carbon.mediation.version}</version>
                                 </feature>
                                 <feature>
@@ -937,7 +938,10 @@
                                 <!--<version>${wso2carbon.feature.version}</version>-->
                                 <!--</feature>-->
                                 
-                                
+                                <feature>
+                                    <id>org.wso2.carbon.websocket.feature.group</id>
+                                    <version>${carbon.mediation.version}</version>
+                                </feature> 
                                 <feature>
                                     <id>org.wso2.carbon.cloud.gateway.agent.feature.group</id>
                                     <version>${carbon.mediation.version}</version>
@@ -1041,8 +1045,8 @@
                                     <id>org.wso2.carbon.mediation.tracer.feature.group</id>
                                     <version>${carbon.mediation.version}</version>
                                 </feature>
-				<feature>
-                                    <id>org.wso2.carbon.message.flow.tracer.feature.group</id>
+				                <feature>
+                                    <id>org.wso2.carbon.das.messageflow.data.publisher.feature.group</id>
                                     <version>${carbon.mediation.version}</version>
                                 </feature>
                                 <feature>
@@ -1492,7 +1496,10 @@
                                 <!--<version>${wso2carbon.feature.version}</version>-->
                                 <!--</feature>-->
                                 
- 
+                                <feature>
+                                    <id>org.wso2.carbon.websocket.feature.group</id>
+                                    <version>${carbon.mediation.version}</version>
+                                </feature>
                                 <feature>
                                     <id>org.wso2.carbon.cloud.gateway.agent.feature.group</id>
                                     <version>${carbon.mediation.version}</version>
